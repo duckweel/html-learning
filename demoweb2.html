@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soban Haroon Mulla | Realm of AI & Data</title>
+    <!-- Importing Medieval and Readable Serif Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* === THEME VARIABLES === */
+        :root {
+            --stone-dark: #1a1c20;
+            --stone-mid: #2c303a;
+            --stone-light: #444a55;
+            --gold: #d4af37;
+            --blood-red: #8b0000;
+            --parchment: #f4e8d3;
+            --parchment-dark: #e3d3b4;
+            --text-light: #e0e0e0;
+            --text-dark: #2b2b2b;
+            --magic-blue: #38bdf8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--stone-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            /* Brick texture background */
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.02) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.02) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.02) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.02) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+        }
+
+        h1, h2, h3, h4, .medieval-text {
+            font-family: 'MedievalSharp', cursive;
+            letter-spacing: 1px;
+        }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(26, 28, 32, 0.95), transparent);
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--parchment);
+            text-decoration: none;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--blood-red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* === GENERAL SECTIONS === */
+        section {
+            min-height: 100vh;
+            padding: 8rem 5% 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .section-title::before, .section-title::after {
+            content: '⚔️';
+            font-size: 2rem;
+            margin: 0 15px;
+            opacity: 0.7;
+        }
+
+        /* === HERO SECTION & CASTLE GATE === */
+        #hero {
+            justify-content: center;
+            background: radial-gradient(circle at center, var(--stone-mid) 0%, var(--stone-dark) 80%);
+            overflow: hidden;
+        }
+
+        .castle-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            overflow: hidden;
+            border-bottom: 10px solid var(--stone-dark);
+        }
+
+        /* The Stone Arch (The Wall) */
+        .castle-arch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 45px solid var(--stone-light);
+            border-bottom: 0;
+            border-radius: 150px 150px 0 0;
+            box-shadow: inset 0 0 30px #000, 0 10px 30px rgba(0,0,0,0.9);
+            z-index: 4;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+
+        /* Inside the gate (glowing portal) */
+        .castle-interior {
+            position: absolute;
+            top: 45px;
+            left: 45px;
+            right: 45px;
+            bottom: 0;
+            background: radial-gradient(circle at center 80%, var(--magic-blue), #000 80%);
+            border-radius: 105px 105px 0 0;
+            z-index: 1;
+            box-shadow: inset 0 0 20px #000;
+        }
+
+        /* The Portcullis (Metal Gate) */
+        .portcullis {
+            position: absolute;
+            top: 45px;
+            left: 45px;
+            right: 45px;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 20px, #111 20px, #111 30px),
+                repeating-linear-gradient(180deg, transparent, transparent 30px, #111 30px, #111 40px);
+            z-index: 3;
+            transition: transform 1s cubic-bezier(0.5, 0, 0.1, 1);
+        }
+
+        /* Hover effect to raise the gate */
+        .castle-container:hover .portcullis {
+            transform: translateY(-90%);
+        }
+
+        /* The Knight inside the gate */
+        .knight-guardian {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            width: 140px;
+            height: 180px;
+            z-index: 2; /* Behind gate, in front of interior */
+            opacity: 0.4;
+            transition: all 1s cubic-bezier(0.5, 0, 0.1, 1);
+            filter: drop-shadow(0 0 5px rgba(0,0,0,1));
+        }
+
+        .knight-sword-blade, .knight-visor {
+            transition: fill 1s ease, filter 1s ease;
+        }
+
+        /* Knight steps forward and glows when gate opens */
+        .castle-container:hover .knight-guardian {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.5));
+        }
+
+        .castle-container:hover .knight-sword-blade {
+            fill: var(--magic-blue);
+            filter: drop-shadow(0 0 10px var(--magic-blue));
+        }
+
+        .castle-container:hover .knight-visor {
+            fill: #fff;
+            filter: drop-shadow(0 0 8px #fff);
+        }
+
+        /* Hero Text */
+        .hero-text-box {
+            text-align: center;
+            z-index: 10;
+            background: rgba(0,0,0,0.6);
+            padding: 2rem;
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            color: var(--parchment);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-medieval {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, #a00, var(--blood-red));
+            color: var(--parchment);
+            text-decoration: none;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            border: 2px solid var(--gold);
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            transition: all 0.2s;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .btn-medieval:hover {
+            background: linear-gradient(to bottom, #c00, #a00);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.7), 0 0 15px var(--gold);
+        }
+
+        /* === ABOUT SECTION (Parchment Map) === */
+        #about {
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .parchment-scroll {
+            background-color: var(--parchment);
+            color: var(--text-dark);
+            max-width: 800px;
+            padding: 3rem 4rem;
+            position: relative;
+            box-shadow: 2px 3px 20px rgba(0,0,0,0.8), inset 0 0 50px rgba(139, 69, 19, 0.2);
+            border-radius: 3px;
+            clip-path: polygon(1% 0, 98% 2%, 100% 98%, 2% 100%, 0 50%);
+            transform: rotate(-1deg);
+        }
+
+        .parchment-scroll h3 {
+            color: var(--blood-red);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 2px dashed #8b4513;
+            padding-bottom: 10px;
+        }
+
+        .parchment-scroll p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* === PROJECTS SECTION (Quest Board) === */
+        #projects {
+            background: 
+                linear-gradient(rgba(26, 28, 32, 0.9), rgba(26, 28, 32, 0.9)),
+                repeating-linear-gradient(0deg, #3e2723, #3e2723 20px, #4e342e 20px, #4e342e 40px); /* Wood background */
+        }
+
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .quest-card {
+            background: var(--parchment-dark);
+            color: var(--text-dark);
+            padding: 2rem;
+            border: 4px solid #5c4033; /* Dark wood border */
+            position: relative;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.7);
+            transition: transform 0.3s;
+        }
+
+        .quest-card:hover {
+            transform: scale(1.05) rotate(1deg);
+        }
+
+        .quest-card::before {
+            content: '⚔️';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--blood-red);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .quest-title {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.6rem;
+            color: #3e2723;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quest-desc {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .skills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .skill-badge {
+            background: #2b2b2b;
+            color: var(--gold);
+            padding: 4px 10px;
+            border: 1px solid var(--gold);
+            font-size: 0.8rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        /* === INTERACTIVE GAME SECTION === */
+        #arena {
+            background-color: #0b0f14;
+            border-top: 5px solid var(--stone-light);
+            border-bottom: 5px solid var(--stone-light);
+        }
+
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            border: 10px solid var(--stone-mid);
+            border-radius: 10px;
+            box-shadow: 0 0 30px #000;
+            background: #1e293b;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(to bottom, #1a202c, #2d3748);
+            cursor: crosshair;
+        }
+
+        .game-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--gold);
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            pointer-events: none;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--parchment);
+            z-index: 10;
+        }
+
+        /* === SCROLL ANIMATIONS === */
+        .hidden {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .d-1 { transition-delay: 0.1s; }
+        .d-2 { transition-delay: 0.3s; }
+        .d-3 { transition-delay: 0.5s; }
+
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo"> Soban's web</div>
+        <div class="nav-links">
+            <a href="#hero">Castle</a>
+            <a href="#about">Lore</a>
+            <a href="#projects">Quests</a>
+            <a href="#arena">The Arena</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="castle-container hidden">
+            <!-- Glowing portal -->
+            <div class="castle-interior"></div>
+            
+            <!-- SVG Knight guarding the gate -->
+            <div class="knight-guardian">
+                <svg viewBox="0 0 100 150" width="100%" height="100%">
+                    <!-- Shoulders & Cloak -->
+                    <path d="M 50 40 L 15 70 L 5 150 L 95 150 L 85 70 Z" fill="#15171a"/>
+                    <!-- Armor Chestplate -->
+                    <path d="M 50 40 L 30 70 L 40 120 L 60 120 L 70 70 Z" fill="#2a2e35"/>
+                    <path d="M 50 40 L 40 70 L 50 110 Z" fill="#3b404a"/> <!-- Armor Highlight -->
+                    <!-- Helmet Base -->
+                    <path d="M 35 45 L 30 20 C 30 0 70 0 70 20 L 65 45 L 50 55 Z" fill="#1a1c20"/>
+                    <path d="M 35 45 L 35 20 C 35 10 65 10 65 20 L 65 45 L 50 50 Z" fill="#2c303a"/>
+                    <!-- Visor Slit -->
+                    <path d="M 40 32 L 60 32 L 60 35 L 40 35 Z" fill="#111" class="knight-visor"/>
+                    <!-- Sword Hilt behind blade -->
+                    <rect x="42" y="65" width="16" height="6" fill="#111"/>
+                    <rect x="47" y="71" width="6" height="15" fill="#5c4033"/>
+                    <circle cx="50" cy="86" r="4" fill="#d4af37"/>
+                    <!-- Glowing Sword Blade -->
+                    <path d="M 46 70 L 54 70 L 50 -10 Z" fill="#555" class="knight-sword-blade"/>
+                </svg>
+            </div>
+
+            <!-- The Metal Gate -->
+            <div class="portcullis"></div>
+            <!-- The Stone Arch Wall -->
+            <div class="castle-arch"></div>
+        </div>
+
+        <div class="hero-text-box hidden d-1">
+            <h2 class="hero-subtitle">Welcome to the Domain of</h2>
+            <h1 class="hero-title">Soban Mulla</h1>
+            <p class="medieval-text" style="color: var(--text-light); font-size: 1.2rem; margin-bottom: 2rem;">
+                Knight of Artificial Intelligence, Forger of Data Science, Wielder of Python.
+            </p>
+            <a href="#arena" class="btn-medieval">Prove Thy Worth (Play Game)</a>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <h2 class="section-title hidden">The Lore</h2>
+        <div class="parchment-scroll hidden d-1">
+            <h3>Chronicles of the Scholar</h3>
+            <p>
+                Hailing from the academic halls, I am traversing the arduous path of a B.Tech in Artificial Intelligence and Data Science. My quest is to master the arcane arts of machine learning and large language models.
+            </p>
+            <p>
+                When not deciphering the sacred texts of code or training automated constructs, I embark on trials of intellect, preparing for vast trials, and fortifying my mind with the philosophies of classical tomes and modern wisdom.
+            </p>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <h2 class="section-title hidden">Heroic Quests</h2>
+        <div class="quest-grid">
+            
+            <div class="quest-card hidden d-1">
+                <h3 class="quest-title">The Oracle of Tomes</h3>
+                <p class="quest-desc">An automated conversational spirit that devours PDF scrolls and answers queries from its masters with unerring accuracy.</p>
+                <div class="skills">
+                    <span class="skill-badge">Python</span>
+                    <span class="skill-badge">NLP</span>
+                    <span class="skill-badge">LLMs</span>
+                </div>
+            </div>
+
+            <div class="quest-card hidden d-2">
+                <h3 class="quest-title">Gemini Conduit</h3>
+                <p class="quest-desc">A powerful artifact application bound to the Generative AI Studio, channeling the Gemini API to conjure dynamic logic and automate complex rites.</p>
+                <div class="skills">
+                    <span class="skill-badge">Gemini API</span>
+                    <span class="skill-badge">GenAI Studio</span>
+                    <span class="skill-badge">JS</span>
+                </div>
+            </div>
+
+            <div class="quest-card hidden d-3">
+                <h3 class="quest-title">The Grand Pipeline</h3>
+                <p class="quest-desc">Constructed a robust architectural aqueduct designed to cleanse, transform, and channel immense rivers of raw data into predictive truths.</p>
+                <div class="skills">
+                    <span class="skill-badge">Data Science</span>
+                    <span class="skill-badge">Pandas</span>
+                    <span class="skill-badge">SQL</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GAME SECTION -->
+    <section id="arena">
+        <h2 class="section-title hidden">The Arena</h2>
+        <p class="medieval-text hidden" style="margin-bottom: 20px; font-size: 1.2rem; text-align:center;">
+            Defend the Castle! Use <strong>W A S D</strong> or <strong>Arrows</strong> to move.<br>
+            <strong>Click the mouse</strong> to swing your sword at the encroaching Bugs.
+        </p>
+
+        <div class="game-container hidden d-1">
+            <div class="game-ui">
+                <div id="scoreDisplay">Bugs Slain: 0</div>
+                <div id="healthDisplay">Knight Health: 100</div>
+            </div>
+            
+            <div id="gameOverlay" class="game-overlay">
+                <h3 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--gold);">Knight's Quest</h3>
+                <button class="btn-medieval" id="startGameBtn">Commence Battle</button>
+            </div>
+
+            <canvas id="gameCanvas" width="800" height="450"></canvas>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 2rem; background: #000; border-top: 1px solid #333;">
+        <p class="medieval-text" style="color: var(--stone-light);">Forged by Soban Mulla.</p>
+    </footer>
+
+    <!-- INTERACTIVITY & GAME SCRIPT -->
+    <script>
+        /* --- 1. SCROLL ANIMATIONS --- */
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+
+        /* --- 2. HTML5 CANVAS MINI-GAME --- */
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const healthDisplay = document.getElementById('healthDisplay');
+        const overlay = document.getElementById('gameOverlay');
+        const startBtn = document.getElementById('startGameBtn');
+
+        let isGameRunning = false;
+        let animationId;
+        let score = 0;
+        let frameCount = 0;
+
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            size: 24,
+            speed: 4,
+            color: '#38bdf8',
+            health: 100,
+            dx: 0, dy: 0,
+            isAttacking: false,
+            attackRadius: 60,
+            attackTimer: 0,
+            facingAngle: 0
+        };
+
+        const keys = { w: false, a: false, s: false, d: false, ArrowUp: false, ArrowLeft: false, ArrowDown: false, ArrowRight: false };
+        let mouseX = 0;
+        let mouseY = 0;
+
+        let enemies = [];
+        let particles = [];
+
+        window.addEventListener('keydown', (e) => { if(keys.hasOwnProperty(e.key)) keys[e.key] = true; });
+        window.addEventListener('keyup', (e) => { if(keys.hasOwnProperty(e.key)) keys[e.key] = false; });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            mouseX = (e.clientX - rect.left) * scaleX;
+            mouseY = (e.clientY - rect.top) * scaleY;
+        });
+
+        canvas.addEventListener('mousedown', () => {
+            if (isGameRunning && !player.isAttacking) {
+                player.isAttacking = true;
+                player.attackTimer = 15;
+                checkAttackCollisions();
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            overlay.style.display = 'none';
+            resetGame();
+            isGameRunning = true;
+            gameLoop();
+        });
+
+        function resetGame() {
+            player.x = canvas.width / 2;
+            player.y = canvas.height / 2;
+            player.health = 100;
+            score = 0;
+            enemies = [];
+            particles = [];
+            frameCount = 0;
+            updateUI();
+        }
+
+        function updateUI() {
+            scoreDisplay.innerText = `Bugs Slain: ${score}`;
+            healthDisplay.innerText = `Knight Health: ${player.health}`;
+            if (player.health <= 0) {
+                healthDisplay.innerText = `Knight Defeated!`;
+                healthDisplay.style.color = 'red';
+            } else {
+                healthDisplay.style.color = 'var(--gold)';
+            }
+        }
+
+        function spawnEnemy() {
+            let x, y;
+            if (Math.random() < 0.5) {
+                x = Math.random() < 0.5 ? -20 : canvas.width + 20;
+                y = Math.random() * canvas.height;
+            } else {
+                x = Math.random() * canvas.width;
+                y = Math.random() < 0.5 ? -20 : canvas.height + 20;
+            }
+            
+            enemies.push({
+                x: x, y: y, size: 16,
+                speed: 1.5 + (Math.random() * 1),
+                color: '#e74c3c'
+            });
+        }
+
+        function createParticles(x, y, color) {
+            for(let i=0; i<8; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    life: 20,
+                    color: color
+                });
+            }
+        }
+
+        function checkAttackCollisions() {
+            const dx = mouseX - player.x;
+            const dy = mouseY - player.y;
+            player.facingAngle = Math.atan2(dy, dx);
+
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+                
+                if (dist < player.attackRadius + enemy.size) {
+                    const enemyAngle = Math.atan2(enemy.y - player.y, enemy.x - player.x);
+                    let angleDiff = Math.abs(player.facingAngle - enemyAngle);
+                    if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
+
+                    if (angleDiff < Math.PI / 2.5) {
+                        createParticles(enemy.x, enemy.y, '#e74c3c');
+                        enemies.splice(i, 1);
+                        score++;
+                        updateUI();
+                    }
+                }
+            }
+        }
+
+        function gameLoop() {
+            if (!isGameRunning) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'rgba(255,255,255,0.05)';
+            for(let i=0; i<10; i++){
+                ctx.beginPath();
+                ctx.arc((i*100)%canvas.width, (i*80)%canvas.height, 2, 0, Math.PI*2);
+                ctx.fill();
+            }
+
+            player.dx = 0; player.dy = 0;
+            if (keys.w || keys.ArrowUp) player.dy = -player.speed;
+            if (keys.s || keys.ArrowDown) player.dy = player.speed;
+            if (keys.a || keys.ArrowLeft) player.dx = -player.speed;
+            if (keys.d || keys.ArrowRight) player.dx = player.speed;
+
+            if(player.dx !== 0 && player.dy !== 0) {
+                player.dx *= 0.707;
+                player.dy *= 0.707;
+            }
+
+            player.x += player.dx;
+            player.y += player.dy;
+
+            player.x = Math.max(player.size/2, Math.min(canvas.width - player.size/2, player.x));
+            player.y = Math.max(player.size/2, Math.min(canvas.height - player.size/2, player.y));
+
+            player.facingAngle = Math.atan2(mouseY - player.y, mouseX - player.x);
+
+            ctx.save();
+            ctx.translate(player.x, player.y);
+            ctx.rotate(player.facingAngle);
+            
+            ctx.fillStyle = player.color;
+            ctx.fillRect(-player.size/2, -player.size/2, player.size, player.size);
+            
+            ctx.fillStyle = '#000';
+            ctx.fillRect(player.size/4, -player.size/4, 4, player.size/2);
+
+            if (player.isAttacking) {
+                player.attackTimer--;
+                ctx.beginPath();
+                ctx.arc(0, 0, player.attackRadius, -Math.PI/3, Math.PI/3);
+                ctx.lineTo(0,0);
+                ctx.fillStyle = `rgba(255, 215, 0, ${player.attackTimer / 15})`;
+                ctx.fill();
+
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                const slashProg = 1 - (player.attackTimer/15);
+                const startA = -Math.PI/3;
+                const endA = Math.PI/3;
+                const currentA = startA + (endA - startA) * slashProg;
+                ctx.moveTo(0,0);
+                ctx.lineTo(Math.cos(currentA) * player.attackRadius, Math.sin(currentA) * player.attackRadius);
+                ctx.stroke();
+
+                if (player.attackTimer <= 0) player.isAttacking = false;
+            } else {
+                ctx.fillStyle = '#ccc';
+                ctx.fillRect(player.size/2, player.size/2, 20, 4);
+                ctx.fillStyle = '#d4af37';
+                ctx.fillRect(player.size/2, player.size/2 - 4, 4, 12);
+            }
+            ctx.restore();
+
+            frameCount++;
+            let spawnRate = Math.max(20, 60 - Math.floor(score/5)); 
+            if (frameCount % spawnRate === 0) spawnEnemy();
+
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                
+                const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+                enemy.x += Math.cos(angle) * enemy.speed;
+                enemy.y += Math.sin(angle) * enemy.speed;
+
+                ctx.save();
+                ctx.translate(enemy.x, enemy.y);
+                ctx.rotate(angle);
+                ctx.fillStyle = enemy.color;
+                ctx.fillRect(-enemy.size/2, -enemy.size/2, enemy.size, enemy.size);
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(enemy.size/4, -enemy.size/3, 4, 4);
+                ctx.fillRect(enemy.size/4, enemy.size/4 - 2, 4, 4);
+                ctx.restore();
+
+                const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+                if (dist < player.size/2 + enemy.size/2) {
+                    player.health -= 10;
+                    updateUI();
+                    createParticles(player.x, player.y, '#f00');
+                    enemies.splice(i, 1);
+                    
+                    if (player.health <= 0) {
+                        isGameRunning = false;
+                        overlay.style.display = 'flex';
+                        overlay.innerHTML = `
+                            <h3 style="font-size: 2.5rem; color: #e74c3c; margin-bottom: 1rem;">Defeat!</h3>
+                            <p style="font-size: 1.5rem; margin-bottom: 2rem;">Bugs Slain: ${score}</p>
+                            <button class="btn-medieval" onclick="location.reload()">Rise Again</button>
+                        `;
+                    }
+                }
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+                
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life / 20;
+                ctx.fillRect(p.x, p.y, 4, 4);
+                ctx.globalAlpha = 1;
+
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+
+            if (isGameRunning) {
+                animationId = requestAnimationFrame(gameLoop);
+            }
+        }
+    </script>
+</body>
+</html>
